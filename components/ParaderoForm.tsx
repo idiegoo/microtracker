@@ -2,10 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import "bootstrap/dist/css/bootstrap.min.css"
 
 const ParaderoForm = () => {
   const router = useRouter();
-  const [route, setRoute] = useState("./")
+
+  const [route, setRoute] = useState("")
 
   const handleSubmit = (e: React.FormEvent <HTMLFormElement>) => {
     e.preventDefault()
@@ -14,15 +16,18 @@ const ParaderoForm = () => {
   }
 
   return(
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder='Ej: PF210'
-        /* Redefinimos el valor de la ruta */
-        onChange={(event) => setRoute(event.target.value)}
-      />
-      <button onClick={() => console.log(route)} type="submit">Enviar</button>
-    </form>
+    <main>
+      <h1>Consulta paradero:</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder='Ej: PF210'
+          /* Redefinimos el valor de la ruta */
+          onChange={(event) => setRoute(event.target.value)}
+        />
+        <button type="submit">Enviar</button>
+      </form>
+    </main>
   )
 };
 

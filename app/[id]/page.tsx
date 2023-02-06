@@ -1,36 +1,25 @@
-"use client"
 import "bootstrap/dist/css/bootstrap.min.css"
-import { usePathname } from "next/navigation"
-import React, { useEffect, useState } from "react"
 
-export default function DataDisplayer(pathname:any){
-  const [dataParadero, setDataParadero] = useState<{ services: any[], id: string, name:string } | null>(null);
-  const currentPathname = usePathname()
 
-  useEffect(() => {
-    const fetchParadero = async () => {
-      pathname = currentPathname
-      const paraderoResponse = await fetch(`https://api.xor.cl/red/bus-stop${pathname}`,{
-        cache:"no-store"
-      })
-      console.log(pathname)
-      const newDataParadero = await paraderoResponse.json()
-      setDataParadero(newDataParadero) //Actualizamos el dataParadero con la constante tmp
-    }
+export const dynamic = 'force-dynamic'
 
-    fetchParadero()
-  }, [pathname])
+export default async function Page(path:any) {
+  const paraderoRes = await fetch(`https://api.xor.cl/red/bus-stop/${path.params.id}`,{
+    cache:"no-store",
+  })
+  const dataParadero = await paraderoRes.json()
 
+  let microsParadero
   if (dataParadero) {
     // Ordenando dataParadero para mostrar primero los servicios en horario hábil con sort()
-    const microsParadero = dataParadero.services.sort((a: any, b: any) => {
+    microsParadero = dataParadero.services.sort((a: any, b: any) => {
       if (a.valid === b.valid) {
         return 0;
       }
       return a.valid ? -1 : 1; // -1 = a.valid va antes que b.valid : 1 = b.valid va antes que el a.valid en la lista
     });
+  }
 
-    console.log(microsParadero)
     return(
       <main>
         <h1>{dataParadero.name} ID: {dataParadero.id}</h1>
@@ -44,14 +33,14 @@ export default function DataDisplayer(pathname:any){
           </tr>
           </thead>
           <tbody>
-            {/* Mapeamos en .reverse para que muestre primero los datos de data.valid true */}
-          {microsParadero.map((data:any) => {
+
+          {microsParadero?.map((data:any) => {
             if(data.valid === true){
               return(
                 <>
                   {data.buses.map((dataBus:any) =>{
                     let distanceText
-                    const patente = dataBus.id
+                    const patente:string = dataBus.id
 
                     if(dataBus.min_arrival_time === 0){
                       distanceText = `Llegando`
@@ -62,10 +51,10 @@ export default function DataDisplayer(pathname:any){
                     // Datos de cada micro
                     return(
                       <tr key={patente}>
-                        <td>{data.id}</td>
-                        <td>{patente}</td>
-                        <td>{distanceText}</td>
-                        <td>{dataBus.meters_distance} mts.</td>
+                        <td key={patente+data.id}>{data.id}</td>
+                        <td key={patente+patente}>{patente}</td>
+                        <td key={patente+distanceText}>{distanceText}</td>
+                        <td key={patente+dataBus.meters_distance}>{dataBus.meters_distance} mts.</td>
                       </tr>
                       )
                     }
@@ -76,10 +65,10 @@ export default function DataDisplayer(pathname:any){
           } else if(data.valid === false){
               return(
                 <tr key={data.id}>
-                  <td>{data.id}</td>
-                  <td>{data.status_description}</td>
-                  <td></td>
-                  <td></td>
+                  <td key={data.id+data.id}>{data.id}</td>
+                  <td key={data.id+data.status_description}>{data.status_description}</td>
+                  <td key={data.id+"0"}></td>
+                  <td key={data.id+"1"}></td>
                 </tr>
               )
             }
@@ -89,5 +78,4 @@ export default function DataDisplayer(pathname:any){
       </table>
     </main>
     )
-  }
 }
