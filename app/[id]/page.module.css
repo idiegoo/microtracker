@@ -1,0 +1,7 @@
+.noStriped :nth-child(even) {
+  color: red !important;
+}
+
+.noStriped :nth-child(odd) {
+  color: red !important;
+}

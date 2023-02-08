@@ -1,4 +1,5 @@
 import './globals.css'
+import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function RootLayout({
   children,
@@ -12,7 +13,7 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body className='bg-info bg-opacity-25'>{children}</body>
     </html>
   )
 }
