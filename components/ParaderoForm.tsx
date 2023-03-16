@@ -1,21 +1,35 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 
 const ParaderoForm = () => {
-  // Loading (temporal)
   const [loading, setLoading] = useState(false)
-  // Ruta
+
   const router = useRouter();
-  const [route, setRoute] = useState("")
+
+  const [inputValue, setInputValue] = useState("");
+  const [inputHistory, setInputHistory] = useState<string[]>([]);
+
+  // Obtener historial de valores del localStorage al cargar el componente
+  useEffect(() => {
+    const storedInputHistory = localStorage.getItem("inputHistory");
+    if (storedInputHistory) {
+      setInputHistory(JSON.parse(storedInputHistory).slice(-5));
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent <HTMLFormElement>) => {
-    e.preventDefault()
-    router.push(route)
-    console.log(route)
-    setLoading(true)
+    e.preventDefault();
+    router.push(inputValue);
+    setLoading(true);
+    // Agregar valor actual al historial de valores si no existe ya
+    if (!inputHistory.includes(inputValue)){
+      setInputHistory([...inputHistory.slice(-4), inputValue]);
+      // Guardar nuevo historial de valores en el localStorage
+      localStorage.setItem("inputHistory", JSON.stringify([...inputHistory.slice(-4), inputValue]));
+    }
   }
 
   return(
@@ -29,8 +43,15 @@ const ParaderoForm = () => {
           type="text"
           placeholder='Ej: PF210'
           /* Redefinimos el valor de la ruta */
-          onChange={(event) => setRoute(event.target.value)}
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
+          /* Asociamos el datalist al input */
+          list="inputHistory"
         />
+        {/* Creamos el datalist con las opciones de historial */}
+        <datalist id="inputHistory">
+          {inputHistory.map((value, index) => <option key={index} value={value} />)}
+        </datalist>
         <button
           className='btn btn-primary btn-lg' type="submit"
         >Enviar</button>
@@ -38,8 +59,6 @@ const ParaderoForm = () => {
       <div className="d-flex justify-content-center m-3">
         {/* Loading state */}
         <div className="spinner-border" style={{visibility: loading ? "visible":"hidden"}} role="status"></div>
-      </div>
-      <div>
       </div>
     </div>
   )

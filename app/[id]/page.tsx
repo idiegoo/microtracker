@@ -42,11 +42,15 @@ export default async function Page(path:any) {
                   {data.buses.map((dataBus:any) =>{
                     let distanceText
                     const patente:string = dataBus.id
-
-                    if(dataBus.min_arrival_time === 0){
-                      distanceText = `Llegando`
-                    } else if(dataBus.min_arrival_time > 0) {
+                    console.log(dataBus)
+                    if (dataBus.min_arrival_time > 0 && dataBus.max_arrival_time >= 5 ) {
                       distanceText = `${dataBus.min_arrival_time} y ${dataBus.max_arrival_time} min`
+                    }
+                    else if (dataBus.meters_distance <= 500 && dataBus.max_arrival_time <= 3) {
+                      distanceText = "Llegando"
+                    }
+                    else if (dataBus.min_arrival_time === 0 && dataBus.max_arrival_time <= 5){
+                      distanceText = `Menos de ${dataBus.max_arrival_time} min`
                     }
 
                     // Datos de cada micro
