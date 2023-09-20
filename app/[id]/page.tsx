@@ -46,7 +46,7 @@ export default async function Page(path: { params: { id: string } }){
     return(
       <main className="container-xxl d-flex flex-column pt-2 text-center align-items-center">
         <h1 className="row fw-normal">{dataParadero.name}</h1>
-        <h2 className="row fw-bold text-light bg-success p-1 rounded-1">ID: {dataParadero.id}</h2>
+        <h2 className="row shadow fw-bold text-light bg-success p-1 rounded-1">ID: {dataParadero.id}</h2>
         <table className="table table-dark table-striped">
           <thead>
           <tr>
@@ -109,7 +109,9 @@ export default async function Page(path: { params: { id: string } }){
       <a className="btn btn-success w-75 fw-bold align-self-center mb-5" href="./">Presiona para volver al inicio</a>
     </main>
     )
-  } else {
+  }
+  // ERRORES En caso de que el paradero no sea válido
+  else {
       return(
         <div className="d-flex flex-column bg-warning vh-100 text-center">
           <h1 className="fw-bolder text-bg-danger display-1 p-5">ERROR:</h1>

@@ -46,8 +46,8 @@ export default async function Page(path: { params: { id: string, bus:string } })
     return(
       <main className="container-xxl d-flex flex-column pt-2 text-center align-items-center">
         <h1 className="row fw-normal">{dataParadero.name}</h1>
-        <h2 className="row fw-bold text-light bg-success p-1 rounded-1">ID: {dataParadero.id}</h2>
-        <h3 className="row fw-bold text-dark bg-info p-1 rounded-1">Bus: {path.params.bus.toUpperCase()}</h3>
+        <h2 className="row shadow fw-bold text-light bg-success p-1 rounded-1">ID: {dataParadero.id}</h2>
+        <h3 className="row fw-bold text-light p-1 rounded-1">Bus: {path.params.bus.toUpperCase()}</h3>
         <table className="table table-dark table-striped">
           <thead>
           <tr>
@@ -60,7 +60,6 @@ export default async function Page(path: { params: { id: string, bus:string } })
           <tbody>
 
           {microsParadero?.map((data: ParaderoData) => {
-
             if(data.valid === true && data.id === path.params.bus.toUpperCase()){
               return(
                 <>
@@ -104,12 +103,20 @@ export default async function Page(path: { params: { id: string, bus:string } })
             }
           }
         )}
+        {/* En caso de que ninguna micro del array coincida con la búsqueda, pero el paradero si sea válido */}
+        {microsParadero?.every((data: ParaderoData) => data.id !== path.params.bus.toUpperCase()) && (
+          <tr key={path.params.bus.toUpperCase()}>
+            <td className="h4" colSpan={100}>El recorrido <span className="fw-bold h3">{path.params.bus.toUpperCase()}</span> no existe en este paradero</td>
+          </tr>
+        )
+        }
         </tbody>
       </table>
       <a className="btn btn-success w-75 fw-bold align-self-center mb-5" href=".././">Presiona para volver al inicio</a>
     </main>
     )
   }
+  // ERRORES En caso de que el paradero no sea válido
   else {
       return(
         <div className="d-flex flex-column bg-warning vh-100 text-center">
