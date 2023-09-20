@@ -1,3 +1,13 @@
+body {
+  background: rgb(5,0,89);
+  background: linear-gradient(0deg, rgba(5,0,89,1) 0%, rgba(14,170,201,1) 100%);
+  background-repeat: no-repeat;
+}
+
+html, body {
+  min-height: 100%;
+}
+
 form {
   display: flex;
   gap: 10px;

@@ -106,7 +106,7 @@ export default async function Page(path: { params: { id: string } }){
         )}
         </tbody>
       </table>
-      <a className="btn btn-success w-75 fw-bold align-self-center mb-5" href="./">Click para volver al inicio</a>
+      <a className="btn btn-success w-75 fw-bold align-self-center mb-5" href="./">Presiona para volver al inicio</a>
     </main>
     )
   } else {
