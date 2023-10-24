@@ -26,13 +26,15 @@ type ParaderoData = {
   valid: boolean
 };
 
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
 export default async function Page(path: { params: { id: string, bus:string } }) {
 
   // Creamos una promesa que se resolverá después de 10 segundos
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(() => {
       reject(new Error("Tiempo de espera agotado"));
-    }, 9800);
+    }, 24800);
   });
 
   // Creamos una promesa para el fetch
@@ -140,7 +142,7 @@ export default async function Page(path: { params: { id: string, bus:string } })
     return (
       <div className="d-flex flex-column bg-danger vh-100 text-center">
         <h1 className="fw-bolder text-light display-1 p-3">Ups! :/</h1>
-        <h2 className="display-3 text-warning p-4 fw-bolder">Tiempo de espera agotado (10 seg)</h2>
+        <h2 className="display-3 text-warning p-4 fw-bolder">Tiempo de espera agotado (25 seg)</h2>
         <h3 className="p-3">Lo sentimos, el sistema se encuentra muy saturado en estos momentos, inténtalo de nuevo.</h3>
         <a className="btn btn-lg btn-light fw-bold align-self-center" href=".././">
           Volver al inicio
