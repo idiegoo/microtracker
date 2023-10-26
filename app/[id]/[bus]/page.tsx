@@ -27,7 +27,7 @@ type ParaderoData = {
 };
 //Esta pagina aparece solo en caso de que se quiera buscar un recorrido específico
 export const runtime = 'edge';
-export const preferredRegion = 'iad1';
+export const preferredRegion = 'gru1'; // Sao paulo, Brasil
 export default async function Page(path: { params: { id: string, bus:string } }) {
   // Creamos una promesa que se resolverá después de 10 segundos
   const timeoutPromise = new Promise((_, reject) => {

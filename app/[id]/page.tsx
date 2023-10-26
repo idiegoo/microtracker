@@ -27,7 +27,7 @@ type ParaderoData = {
 };
 
 export const runtime = 'edge';
-export const preferredRegion = 'iad1';
+export const preferredRegion = 'gru1'; // Sao paulo, Brasil
 export default async function Page(path: { params: { id: string, bus:string } }) {
 
   // Creamos una promesa que se resolverá después de 10 segundos
